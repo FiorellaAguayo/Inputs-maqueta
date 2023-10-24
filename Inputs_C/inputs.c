@@ -211,3 +211,72 @@ int askForCSVFile(char* text, char* message, char* messageError)
     }
     return allOk;
 }
+
+/**
+ * @brief Solicita al usuario un carácter y realiza validaciones.
+ *
+ * Esta función muestra un mensaje al usuario, solicita un carácter y verifica si coincide
+ * con uno de los dos caracteres permitidos (letra1 o letra2). Luego, almacena el carácter
+ * válido en la variable `caracter`.
+ *
+ * @param caracter Puntero a la variable donde se almacenará el carácter válido.
+ * @param mensaje El mensaje que se muestra como indicación.
+ * @param mensajeError El mensaje de error que se muestra para una entrada no válida.
+ * @param letra1 El primer carácter permitido.
+ * @param letra2 El segundo carácter permitido.
+ * @param reintentos El número de intentos permitidos para ingresar un carácter válido.
+ * @return Devuelve 0 si se ingresa un carácter válido, -1 en caso contrario o si hay errores de entrada.
+ */
+int askForChar(char* caracter, char* mensaje, char* mensajeError, char letra1, char letra2, int reintentos)
+{
+	int retorno = -1;
+	char letra;
+	do{
+		if(caracter != NULL && mensaje != NULL && mensajeError != NULL && reintentos > 0)
+		{
+			printf("%s", mensaje);
+			fflush(stdin);
+			scanf("%c", &letra);
+			if(letra == letra1 || letra == letra2)
+			{
+				*caracter = letra;
+				retorno = 0;
+				break;
+			}
+			else
+			{
+				printf("%s", mensajeError);
+				reintentos--;
+			}
+		}
+	}while(reintentos >= 0);
+	return retorno;
+}
+
+/**
+ * @brief Convierte la primera letra de cada palabra en una cadena a mayúsculas.
+ *
+ * Esta función toma una cadena de caracteres `name` y convierte la primera letra de cada palabra
+ * a mayúsculas, manteniendo el resto de las letras en minúsculas. La cadena `name` se modifica directamente.
+ *
+ * @param name La cadena de caracteres en la que se realizará la conversión.
+ * @return Devuelve 0 si la operación se realiza con éxito, -1 en caso de errores, como un puntero nulo.
+ */
+int convertFirstCharToUppercase(char name[])
+{
+    int i = 0;
+    int error = -1;
+    if (name != NULL) {
+        strlwr(name);
+        name[0] = toupper(name[0]);
+
+        while (name[i] != '\0') {
+            if (name[i] == ' ') {
+                name[i + 1] = toupper(name[i + 1]);
+            }
+            i++;
+        }
+        error = 0;
+    }
+    return error;
+}
